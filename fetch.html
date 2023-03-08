@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Faker API Clone</title>
+</head>
+<body>
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" value="10">
+  <br>
+  <label for="data-type">Data Type:</label>
+  <select id="data-type">
+    <option value="persons">Persons</option>
+    <option value="companies">Companies</option>
+    <option value="addresses">Addresses</option>
+    <option value="books">Books</option>
+  </select>
+  <br>
+  <button id="fetch-button">Fetch Data</button>
+  <br>
+  <ul id="data-list"></ul>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+  $("#fetch-button").click(function() {
+    var quantity = $("#quantity").val();
+    var datatype = $("#data-type").val();
+    
+    $.ajax({
+      url: "/",
+      type: "POST",
+      data: { quantity: quantity, datatype: datatype },
+      success: function(data) {
+        // update HTML with fetched data
+        var dataList = $("#data-list");
+        dataList.empty(); // clear previous data
+        for (var i = 0; i < data.data.length; i++) {
+          var item = "<li>" + JSON.stringify(data.data[i]) + "</li>";
+          dataList.append(item);
+        }
+      }
+    });
+  });
+});
+
+  </script>
+</body>
+</html>
